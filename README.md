@@ -1,6 +1,6 @@
 #### 环境安装：
 
-- 安装git，设置ssh key，测试ssh key是否设置好`ssh -T git@github.com`
+- 安装git，设置ssh key，测试ssh key是否设置好: `ssh -T git@github.com`
 - 安装node.js
 - 安装hexo
 

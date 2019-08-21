@@ -1,5 +1,5 @@
 ---
-title: selenium-grid
+title: Selenium Grid 使用
 date: 2019-08-20 16:07:07
 tags:
 	- selenium
@@ -12,7 +12,7 @@ tags:
 `Selenium Grid`是`Selenium`套件的一部分，它专门用于并行运行多个测试用例在不同的浏览器、操作系统和机器上。
 `Selenium  Grid`有两个版本——老版本Grid 1和新版本Grid 2。我们只对新版本做介绍，因为`Selenium`团队已经逐渐遗弃老版本了。
 `Selenium  Grid` 主要使用 master-slaves (or hub-nodes) 理念 --一个 master/hub 和多个 基于master/hub注册的子节点 slaves/nodes。当我们在master上基于不同的浏览器/系统运行测试用例时，master将会分发给适当的node运行。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131033911.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://i.loli.net/2019/08/21/mDRj5wbNOJ8XFEd.png)
 
 #### 什么时候用Selenium Grid
 
@@ -23,7 +23,7 @@ tags:
 
 启动`Selenium Grid`的三种方式，一种直接用命令行，另一种用`JSON`配置文件，最后一种`docker`启动。
 
-##### 1. 命令行启动
+##### 1. 命令行启动s
 
 将会使用2台机器，一台运行hub另一台运行node，为了方便描述，将运行hub的机器命名为“Machine H”（IP：192.168.1.100），运行node的机器命名为“Machine N”（IP：192.168.1.101）
 
@@ -42,23 +42,23 @@ tags:
 	
 - 下载[selenium server](https://docs.seleniumhq.org/download/)，将selenium-server-standalone-X.XX.jar分别放在“Machine H”和“Machine N”上（自定义路径）
 
-	![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131444766.png)
+	![在这里插入图片描述](https://i.loli.net/2019/08/21/J1C6D4vEoNuZkaS.png)
 	
 ###### Step 2
 
 - 在机器“Machine H”上打开命令行，到selenium server所在的路径，运行：`java -jar selenium-server-standalone-3.141.59.jar -role hub -port 5566`，成功启动你会看到：
-	![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131508951.png)
+	![1.png](https://i.loli.net/2019/08/21/UNy4adpoCO6VXPh.png)
 或者直接在机器“Machine H”上的浏览器（“Machine N”则需要将IP修改为“Machine H”的）打开：http://localhost:5566/grid/console ，将会看到：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019061413152646.png)
+![2.png](https://i.loli.net/2019/08/21/VsdqbyAFN9wu6ki.png)
 - 在机器“Machine N”上打开命令行，到selenium server所在的路径，运行：`java -jar selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.1.100:5566/grid/register/ -port 5577`，成功启动你会看到：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131539506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![3.png](https://i.loli.net/2019/08/21/Qnu8cZI56VYG47e.png)
 刷新：http://localhost:5566/grid/console ，将会看到：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131551715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![4.png](https://i.loli.net/2019/08/21/Co3dpgWmwz7biE5.png)
 
 ###### Step 3
 
 运行测试脚本，将会看到在机器“Machine N”上打开了Chrome浏览器，并运行了测试用例：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131604809.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![5.png](https://i.loli.net/2019/08/21/6C9ImVeRak2MPO7.png)
 
 ```python
 from selenium import webdriver
@@ -187,10 +187,10 @@ docker上已经有selenium官方的Selenium Grid镜像，只有你已经安装�
 
 	
 运行命令将会下载内置镜像文件（包括java、Chrome、Firefox、selenium-server-standalone-XXX.jar 等运行selenium所需的环境）；此时你可以访问：http://localhost:4444/grid/console
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131655592.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![6.png](https://i.loli.net/2019/08/21/GvBIP1wxaC9UuVs.png)
 如果需要多个Chrome node则继续运行这个命令：`docker run -d --link selenium-hub:hub selenium/node-chrome`，刷新则看到多了一个Chrome实例。
 通过运行命令：`docker ps`，显示正在运行的容器
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131710251.png)
+![7.png](https://i.loli.net/2019/08/21/z4xeLMrY5JsuaPc.png)
 关闭docker-grid的命令：`docker stop $(docker ps -a -q)`， `docker rm $(docker ps -a -q)`
 docker已经简化了`selenium Grid`的搭建流程，但是还是有很多的手动工作。需要一个一个的启动/关闭hub/nodes.
 
@@ -230,9 +230,9 @@ services:
 - 创建更多实例：`docker-compose scale chrome=5`
 - 关闭命令：`docker-compose down`
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131806449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![8.png](https://i.loli.net/2019/08/21/RaeX3SIvzOdECtu.png)
 浏览器打开[http://localhost:4444/grid/console](http://localhost:4444/grid/console)将会看到：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190614131823839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70)
+![9.png](https://i.loli.net/2019/08/21/7t9O5vDzs3jUqrl.png)
 运行脚本的话直接运行就好（IP：http://localhost:4444/wd/hub） ，和上边两种的方法不太一样；不会有浏览器打开（容器内部运行），但是已经运行成功：
 
 	

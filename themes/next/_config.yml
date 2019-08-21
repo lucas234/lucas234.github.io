@@ -95,7 +95,7 @@ menu:
   home: / || home
   about: /about/ || user
   tags: /tags/ || tags
-  #categories: /categories/ || th
+  categories: /categories/ || th
   archives: /archives/ || archive
   friends-link: /friends-link || link
   #schedule: /schedule/ || calendar
@@ -149,7 +149,7 @@ social_icons:
 
 # Blog rolls
 #links_icon: link
-#links_title: 友情链接
+#links_title: 运行时间
 #links_layout: block
 #links_layout: inline
 #links:

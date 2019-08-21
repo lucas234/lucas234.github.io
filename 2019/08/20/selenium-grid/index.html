@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="selenium,grid,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是Selenium GridSelenium Grid是Selenium套件的一部分，它专门用于并行运行多个测试用例在不同的浏览器、操作系统和机器上。Selenium  Grid有两个版本——老版本Grid 1和新版本Grid 2。我们只对新版本做介绍，因为Selenium团队已经逐渐遗弃老版本了。Selenium  Grid 主要使用 master-slaves (or hub-nodes)">
+<meta name="keywords" content="selenium,grid">
+<meta property="og:type" content="article">
+<meta property="og:title" content="selenium-grid">
+<meta property="og:url" content="http://yoursite.com/2019/08/20/selenium-grid/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="什么是Selenium GridSelenium Grid是Selenium套件的一部分，它专门用于并行运行多个测试用例在不同的浏览器、操作系统和机器上。Selenium  Grid有两个版本——老版本Grid 1和新版本Grid 2。我们只对新版本做介绍，因为Selenium团队已经逐渐遗弃老版本了。Selenium  Grid 主要使用 master-slaves (or hub-nodes)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131033911.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131444766.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131508951.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019061413152646.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131539506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131551715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131604809.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131655592.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131710251.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131806449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190614131823839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-08-20T08:07:53.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="selenium-grid">
+<meta name="twitter:description" content="什么是Selenium GridSelenium Grid是Selenium套件的一部分，它专门用于并行运行多个测试用例在不同的浏览器、操作系统和机器上。Selenium  Grid有两个版本——老版本Grid 1和新版本Grid 2。我们只对新版本做介绍，因为Selenium团队已经逐渐遗弃老版本了。Selenium  Grid 主要使用 master-slaves (or hub-nodes)">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190614131033911.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/20/selenium-grid/">
+
+
+
+
+
+  <title>selenium-grid | </title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title"></span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-friends-link">
+          <a href="/friends-link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br>
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/20/selenium-grid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucas">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">selenium-grid</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-20T16:07:07+08:00">
+                2019-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/20/selenium-grid/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/20/selenium-grid/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/08/20/selenium-grid/" class="leancloud_visitors" data-flag-title="selenium-grid">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="什么是Selenium-Grid"><a href="#什么是Selenium-Grid" class="headerlink" title="什么是Selenium Grid"></a>什么是Selenium Grid</h4><p><code>Selenium Grid</code>是<code>Selenium</code>套件的一部分，它专门用于并行运行多个测试用例在不同的浏览器、操作系统和机器上。<br><code>Selenium  Grid</code>有两个版本——老版本Grid 1和新版本Grid 2。我们只对新版本做介绍，因为<code>Selenium</code>团队已经逐渐遗弃老版本了。<br><code>Selenium  Grid</code> 主要使用 master-slaves (or hub-nodes) 理念 –一个 master/hub 和多个 基于master/hub注册的子节点 slaves/nodes。当我们在master上基于不同的浏览器/系统运行测试用例时，master将会分发给适当的node运行。<br><img src="https://img-blog.csdnimg.cn/20190614131033911.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="什么时候用Selenium-Grid"><a href="#什么时候用Selenium-Grid" class="headerlink" title="什么时候用Selenium Grid"></a>什么时候用Selenium Grid</h4><ul>
+<li>同时在不同的浏览器、操作系统和机器上运行测试。最大程度用于兼容性测试</li>
+<li>减少运行时间</li>
+</ul>
+<h4 id="怎样启动Selenium-Grid？"><a href="#怎样启动Selenium-Grid？" class="headerlink" title="怎样启动Selenium Grid？"></a>怎样启动Selenium Grid？</h4><p>启动<code>Selenium Grid</code>的三种方式，一种直接用命令行，另一种用<code>JSON</code>配置文件，最后一种<code>docker</code>启动。</p>
+<h5 id="1-命令行启动"><a href="#1-命令行启动" class="headerlink" title="1. 命令行启动"></a>1. 命令行启动</h5><p>将会使用2台机器，一台运行hub另一台运行node，为了方便描述，将运行hub的机器命名为“Machine H”（IP：192.168.1.100），运行node的机器命名为“Machine N”（IP：192.168.1.101）</p>
+<h6 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h6><ul>
+<li><p><a href="https://blog.csdn.net/lb245557472/article/details/74625793" target="_blank" rel="noopener">配置Java环境</a></p>
+</li>
+<li><p>已安装需要运行的浏览器</p>
+</li>
+<li><p>下载浏览器driver，放到和selenium server相同的路径下（<a href="https://www.seleniumhq.org/download/" target="_blank" rel="noopener">查看</a>）    ，否则在启动node时要加参数，不然启动不了浏览器（<code>java -Dwebdriver.chrome.driver=&quot;C:\your path\chromedriver.exe&quot;  -jar selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.1.100:5566/grid/register/</code>，可切换浏览器）</p>
+<table>
+<thead>
+<tr>
+<th>driver</th>
+<th>link</th>
+<th>comments</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Firefox</td>
+<td><a href="https://github.com/mozilla/geckodriver/releases/tag/v0.24.0" target="_blank" rel="noopener">下载</a></td>
+<td>安装的浏览器要和下载的driver版本一致</td>
+</tr>
+<tr>
+<td>Chrome</td>
+<td><a href="https://sites.google.com/a/chromium.org/chromedriver/" target="_blank" rel="noopener">下载</a></td>
+<td>安装的浏览器要和下载的driver版本一致</td>
+</tr>
+<tr>
+<td>IE</td>
+<td><a href="https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver" target="_blank" rel="noopener">下载</a></td>
+<td>安装的浏览器要和下载的driver版本一致</td>
+</tr>
+<tr>
+<td>Edge</td>
+<td><a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads" target="_blank" rel="noopener">下载</a></td>
+<td>安装的浏览器要和下载的driver版本一致</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>下载<a href="https://docs.seleniumhq.org/download/" target="_blank" rel="noopener">selenium server</a>，将selenium-server-standalone-X.XX.jar分别放在“Machine H”和“Machine N”上（自定义路径）</p>
+<p>  <img src="https://img-blog.csdnimg.cn/20190614131444766.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<h6 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h6><ul>
+<li>在机器“Machine H”上打开命令行，到selenium server所在的路径，运行：<code>java -jar selenium-server-standalone-3.141.59.jar -role hub -port 5566</code>，成功启动你会看到：<br>  <img src="https://img-blog.csdnimg.cn/20190614131508951.png" alt="在这里插入图片描述"><br>或者直接在机器“Machine H”上的浏览器（“Machine N”则需要将IP修改为“Machine H”的）打开：<a href="http://localhost:5566/grid/console" target="_blank" rel="noopener">http://localhost:5566/grid/console</a> ，将会看到：<br><img src="https://img-blog.csdnimg.cn/2019061413152646.png" alt="在这里插入图片描述"></li>
+<li>在机器“Machine N”上打开命令行，到selenium server所在的路径，运行：<code>java -jar selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.1.100:5566/grid/register/ -port 5577</code>，成功启动你会看到：<br><img src="https://img-blog.csdnimg.cn/20190614131539506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>刷新：<a href="http://localhost:5566/grid/console" target="_blank" rel="noopener">http://localhost:5566/grid/console</a> ，将会看到：<br><img src="https://img-blog.csdnimg.cn/20190614131551715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+<h6 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h6><p>运行测试脚本，将会看到在机器“Machine N”上打开了Chrome浏览器，并运行了测试用例：<br><img src="https://img-blog.csdnimg.cn/20190614131604809.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">ds = &#123;<span class="string">'platform'</span>: <span class="string">'ANY'</span>,</span><br><span class="line">      <span class="string">'browserName'</span>: <span class="string">"chrome"</span>,</span><br><span class="line">      <span class="string">'version'</span>: <span class="string">''</span>,</span><br><span class="line">      <span class="string">'javascriptEnabled'</span>: <span class="literal">True</span></span><br><span class="line">      &#125;</span><br><span class="line">dr = webdriver.Remote(<span class="string">'http://192.168.1.101:5577/wd/hub'</span>, desired_capabilities=ds)</span><br><span class="line">dr.get(<span class="string">"https://www.baidu.com"</span>)</span><br><span class="line"><span class="keyword">print</span> dr.name</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-Json配置文件启动"><a href="#2-Json配置文件启动" class="headerlink" title="2. Json配置文件启动"></a>2. <code>Json</code>配置文件启动</h5><h6 id="Step-1-1"><a href="#Step-1-1" class="headerlink" title="Step 1"></a>Step 1</h6><ul>
+<li><p>创建hub的<code>Json</code>配置文件（ <a href="https://github.com/SeleniumHQ/selenium/blob/master/java/server/src/org/openqa/grid/common/defaults/DefaultHub.json" target="_blank" rel="noopener">查看</a>）<br>代码如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;port&quot;: 4444,</span><br><span class="line">  &quot;newSessionWaitTimeout&quot;: -1,</span><br><span class="line">  &quot;servlets&quot; : [],</span><br><span class="line">  &quot;withoutServlets&quot;: [],</span><br><span class="line">  &quot;custom&quot;: &#123;&#125;,</span><br><span class="line">  &quot;capabilityMatcher&quot;: &quot;org.openqa.grid.internal.utils.DefaultCapabilityMatcher&quot;,</span><br><span class="line">  &quot;registry&quot;: &quot;org.openqa.grid.internal.DefaultGridRegistry&quot;,</span><br><span class="line">  &quot;throwOnCapabilityNotPresent&quot;: true,</span><br><span class="line">  &quot;cleanUpCycle&quot;: 5000,</span><br><span class="line">  &quot;role&quot;: &quot;hub&quot;,</span><br><span class="line">  &quot;debug&quot;: false,</span><br><span class="line">  &quot;browserTimeout&quot;: 0,</span><br><span class="line">  &quot;timeout&quot;: 1800</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<pre><code>将上述代码保存为`hub_config.json`文件，放在“Machine H”上和selenium server相同的路径下。</code></pre><ul>
+<li><p>创建nodes的 <code>Json</code>配置文件（如果selenium版本是3.0或更高则<a href="https://github.com/SeleniumHQ/selenium/blob/master/java/server/src/org/openqa/grid/common/defaults/DefaultNodeWebDriver.json" target="_blank" rel="noopener">查看</a>，否则<a href="https://github.com/SeleniumHQ/selenium/blob/selenium-2.53.0/java/server/src/org/openqa/grid/common/defaults/DefaultNode.json" target="_blank" rel="noopener">查看</a>）<br>代码如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;capabilities&quot;:</span><br><span class="line">  [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;browserName&quot;: &quot;firefox&quot;,</span><br><span class="line">      &quot;marionette&quot;: true,</span><br><span class="line">      &quot;maxInstances&quot;: 5,</span><br><span class="line">      &quot;seleniumProtocol&quot;: &quot;WebDriver&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;browserName&quot;: &quot;chrome&quot;,</span><br><span class="line">      &quot;maxInstances&quot;: 5,</span><br><span class="line">      &quot;seleniumProtocol&quot;: &quot;WebDriver&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;browserName&quot;: &quot;internet explorer&quot;,</span><br><span class="line">      &quot;platform&quot;: &quot;WINDOWS&quot;,</span><br><span class="line">      &quot;maxInstances&quot;: 1,</span><br><span class="line">      &quot;seleniumProtocol&quot;: &quot;WebDriver&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;browserName&quot;: &quot;safari&quot;,</span><br><span class="line">      &quot;technologyPreview&quot;: false,</span><br><span class="line">      &quot;platform&quot;: &quot;MAC&quot;,</span><br><span class="line">      &quot;maxInstances&quot;: 1,</span><br><span class="line">      &quot;seleniumProtocol&quot;: &quot;WebDriver&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;proxy&quot;: &quot;org.openqa.grid.selenium.proxy.DefaultRemoteProxy&quot;,</span><br><span class="line">  &quot;maxSession&quot;: 5,</span><br><span class="line">  &quot;port&quot;: -1,</span><br><span class="line">  &quot;register&quot;: true,</span><br><span class="line">  &quot;registerCycle&quot;: 5000,</span><br><span class="line">  &quot;hub&quot;: &quot;http://192.168.1.100:4444&quot;,</span><br><span class="line">  &quot;nodeStatusCheckTimeout&quot;: 5000,</span><br><span class="line">  &quot;nodePolling&quot;: 5000,</span><br><span class="line">  &quot;role&quot;: &quot;node&quot;,</span><br><span class="line">  &quot;unregisterIfStillDownAfter&quot;: 60000,</span><br><span class="line">  &quot;downPollingLimit&quot;: 2,</span><br><span class="line">  &quot;debug&quot;: false,</span><br><span class="line">  &quot;servlets&quot; : [],</span><br><span class="line">  &quot;withoutServlets&quot;: [],</span><br><span class="line">  &quot;custom&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  保存为<code>node_config.json</code>文件（注意将hub对应的值改为机器“Machine H”的IP），放在“Machine N”上和selenium server相同的路径下。（当多个node时需将该文件放在多个node机器上或者同一个机器上启动多个node）</p>
+</li>
+</ul>
+<h6 id="Step-2-1"><a href="#Step-2-1" class="headerlink" title="Step 2"></a>Step 2</h6><p>hub机器上命令行运行：<code>java -jar selenium-server-standalone-3.141.59.jar -role hub -hubConfig hub_config.json</code></p>
+<p>node机器上命令行运行：<code>java -jar selenium-server-standalone-3.141.59.jar -role node -nodeConfig node_config.json</code></p>
+<p>运行之前的验证方法和脚本查看是否正确</p>
+<h5 id="（1、2）方式启动的挑战"><a href="#（1、2）方式启动的挑战" class="headerlink" title="（1、2）方式启动的挑战"></a>（1、2）方式启动的挑战</h5><p>不易启动和维护：</p>
+<ul>
+<li>每个node需要下载和配置依赖</li>
+<li>java 进程占内存</li>
+<li>出现问题时需手动启动</li>
+<li>不易维护</li>
+<li>扩展性差</li>
+</ul>
+<h5 id="3-docker启动"><a href="#3-docker启动" class="headerlink" title="3. docker启动"></a>3. docker启动</h5><h6 id="docker简介"><a href="#docker简介" class="headerlink" title="docker简介"></a>docker简介</h6><ul>
+<li><a href="https://docs.docker.com/docker-hub/" target="_blank" rel="noopener">https://docs.docker.com/docker-hub/</a></li>
+<li><a href="https://yeasy.gitbooks.io/docker_practice/appendix/repo/mysql.html" target="_blank" rel="noopener">https://yeasy.gitbooks.io/docker_practice/appendix/repo/mysql.html</a></li>
+<li><a href="https://docker-curriculum.com/" target="_blank" rel="noopener">https://docker-curriculum.com/</a></li>
+<li><a href="https://towardsdatascience.com/learn-enough-docker-to-be-useful-1c40ea269fa8" target="_blank" rel="noopener">https://towardsdatascience.com/learn-enough-docker-to-be-useful-1c40ea269fa8</a></li>
+</ul>
+<h6 id="docker启动Selenium-Grid"><a href="#docker启动Selenium-Grid" class="headerlink" title="docker启动Selenium Grid"></a>docker启动Selenium Grid</h6><p>docker上已经有selenium官方的Selenium Grid镜像，只有你已经安装了docker，即可使用。</p>
+<ul>
+<li>启动hub：<code>docker run -d -p 4444:4444 --name selenium-hub selenium/hub</code></li>
+<li>启动node（Chrome&amp;&amp;Firefox）：<ul>
+<li><code>docker run -d --link selenium-hub:hub selenium/node-chrome</code></li>
+<li><code>docker run -d --link selenium-hub:hub selenium/node-firefox</code></li>
+</ul>
+</li>
+</ul>
+<p>运行命令将会下载内置镜像文件（包括java、Chrome、Firefox、selenium-server-standalone-XXX.jar 等运行selenium所需的环境）；此时你可以访问：<a href="http://localhost:4444/grid/console" target="_blank" rel="noopener">http://localhost:4444/grid/console</a><br><img src="https://img-blog.csdnimg.cn/20190614131655592.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果需要多个Chrome node则继续运行这个命令：<code>docker run -d --link selenium-hub:hub selenium/node-chrome</code>，刷新则看到多了一个Chrome实例。<br>通过运行命令：<code>docker ps</code>，显示正在运行的容器<br><img src="https://img-blog.csdnimg.cn/20190614131710251.png" alt="在这里插入图片描述"><br>关闭docker-grid的命令：<code>docker stop $(docker ps -a -q)</code>， <code>docker rm $(docker ps -a -q)</code><br>docker已经简化了<code>selenium Grid</code>的搭建流程，但是还是有很多的手动工作。需要一个一个的启动/关闭hub/nodes.</p>
+<h6 id="docker-组件启动Selenium-Grid"><a href="#docker-组件启动Selenium-Grid" class="headerlink" title="docker 组件启动Selenium Grid"></a>docker 组件启动Selenium Grid</h6><p><code>selenium Grid</code>通常需要启动一个hub，多个nodes像Chrome、Firefox等。我们可以把他们定义到一个文件中叫做<code>docker-compose.yml</code>，通过一个命令来整体启动，docker提供了一个这样的工具 –<code>Docker-Compose</code>。<br>安装<code>docker-compose</code><a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">查看</a>，一旦安装成功，则创建一个新的文件夹，创建文件 <code>docker-compose.yml</code>, <code>docker-compose.yml</code>内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;3&quot;</span><br><span class="line">services:</span><br><span class="line">  selenium-hub:</span><br><span class="line">    image: selenium/hub</span><br><span class="line">    container_name: selenium-hub</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4444:4444&quot;</span><br><span class="line">  chrome:</span><br><span class="line">    image: selenium/node-chrome</span><br><span class="line">    depends_on:</span><br><span class="line">      - selenium-hub</span><br><span class="line">    environment:</span><br><span class="line">      - HUB_PORT_4444_TCP_ADDR=selenium-hub</span><br><span class="line">      - HUB_PORT_4444_TCP_PORT=4444</span><br><span class="line">  firefox:</span><br><span class="line">    image: selenium/node-firefox</span><br><span class="line">    depends_on:</span><br><span class="line">      - selenium-hub</span><br><span class="line">    environment:</span><br><span class="line">      - HUB_PORT_4444_TCP_ADDR=selenium-hub</span><br><span class="line">      - HUB_PORT_4444_TCP_PORT=4444</span><br></pre></td></tr></table></figure>
+
+<h6 id="docker-compose命令："><a href="#docker-compose命令：" class="headerlink" title="docker-compose命令："></a>docker-compose命令：</h6><ul>
+<li>运行命令启动（到<code>docker-compose.yml</code>路径下）：<code>docker-compose up -d</code></li>
+<li>查看启动是否成功：<code>docker-compose ps</code></li>
+<li>创建更多实例：<code>docker-compose scale chrome=5</code></li>
+<li>关闭命令：<code>docker-compose down</code></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190614131806449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>浏览器打开<a href="http://localhost:4444/grid/console" target="_blank" rel="noopener">http://localhost:4444/grid/console</a>将会看到：<br><img src="https://img-blog.csdnimg.cn/20190614131823839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xiMjQ1NTU3NDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>运行脚本的话直接运行就好（IP：<a href="http://localhost:4444/wd/hub）" target="_blank" rel="noopener">http://localhost:4444/wd/hub）</a> ，和上边两种的方法不太一样；不会有浏览器打开（容器内部运行），但是已经运行成功：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestCase</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        ds = &#123;<span class="string">'platform'</span>: <span class="string">'ANY'</span>,</span><br><span class="line">              <span class="string">'browserName'</span>: <span class="string">"chrome"</span>,</span><br><span class="line">              <span class="string">'version'</span>: <span class="string">''</span>,</span><br><span class="line">              <span class="string">'javascriptEnabled'</span>: <span class="literal">True</span></span><br><span class="line">              &#125;</span><br><span class="line">        self.dr = webdriver.Remote(<span class="string">'http://localhost:4444/wd/hub'</span>, desired_capabilities=ds)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_something</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.dr.get(<span class="string">"https://www.baidu.com"</span>)</span><br><span class="line">        self.assertEqual(self.dr.name, <span class="string">"chrome"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_search_button</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.dr.get(<span class="string">"https://www.baidu.com"</span>)</span><br><span class="line">        self.assertTrue(self.dr.find_element_by_id(<span class="string">"su"</span>).is_displayed())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.dr.quit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>主要对启动<code>Selenium Grid</code>的三种方式做了整理，方便使用者选出最佳的方式。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><ul>
+<li><a href="https://github.com/SeleniumHQ/selenium/wiki/Grid2" target="_blank" rel="noopener">https://github.com/SeleniumHQ/selenium/wiki/Grid2</a></li>
+<li><a href="https://www.guru99.com/introduction-to-selenium-grid.html" target="_blank" rel="noopener">https://www.guru99.com/introduction-to-selenium-grid.html</a></li>
+<li><a href="http://www.testautomationguru.com/selenium-grid-setup-using-docker/" target="_blank" rel="noopener">http://www.testautomationguru.com/selenium-grid-setup-using-docker/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果觉得本文对您有帮助，欢迎打赏，谢谢。</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Lucas 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Lucas 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Lucas
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/08/20/selenium-grid/" title="selenium-grid">http://yoursite.com/2019/08/20/selenium-grid/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/selenium/" rel="tag"># selenium</a>
+          
+            <a href="/tags/grid/" rel="tag"># grid</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/15/my-first-blog/" rel="next" title="Appium自动化Windows APP">
+                <i class="fa fa-chevron-left"></i> Appium自动化Windows APP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Lucas">
+            
+              <p class="site-author-name" itemprop="name">Lucas</p>
+              <p class="site-description motion-element" itemprop="description">Talk is cheap. Show me the code！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lucas234" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ly_liubo@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/lb245557472" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-modx"></i>CSDN</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/8476695/lucas" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+		<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("08/15/2019 15:13:14");
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i) {
+    if (i<10) {
+        i="0" + i
+    };
+    return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是Selenium-Grid"><span class="nav-number">1.</span> <span class="nav-text">什么是Selenium Grid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么时候用Selenium-Grid"><span class="nav-number">2.</span> <span class="nav-text">什么时候用Selenium Grid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#怎样启动Selenium-Grid？"><span class="nav-number">3.</span> <span class="nav-text">怎样启动Selenium Grid？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-命令行启动"><span class="nav-number">3.1.</span> <span class="nav-text">1. 命令行启动</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">Step 1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-2"><span class="nav-number">3.1.2.</span> <span class="nav-text">Step 2</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-3"><span class="nav-number">3.1.3.</span> <span class="nav-text">Step 3</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Json配置文件启动"><span class="nav-number">3.2.</span> <span class="nav-text">2. Json配置文件启动</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-1-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">Step 1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-2-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">Step 2</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（1、2）方式启动的挑战"><span class="nav-number">3.3.</span> <span class="nav-text">（1、2）方式启动的挑战</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-docker启动"><span class="nav-number">3.4.</span> <span class="nav-text">3. docker启动</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#docker简介"><span class="nav-number">3.4.1.</span> <span class="nav-text">docker简介</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#docker启动Selenium-Grid"><span class="nav-number">3.4.2.</span> <span class="nav-text">docker启动Selenium Grid</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#docker-组件启动Selenium-Grid"><span class="nav-number">3.4.3.</span> <span class="nav-text">docker 组件启动Selenium Grid</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#docker-compose命令："><span class="nav-number">3.4.4.</span> <span class="nav-text">docker-compose命令：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lucas</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'QPIdk31FukQAlP0vbRgR0N3z-gzGzoHsz',
+        appKey: 'YwMMQVbAI92TC7xRxjGJcOc8',
+        placeholder: 'Just go go',
+        avatar:'monsterid',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("QPIdk31FukQAlP0vbRgR0N3z-gzGzoHsz", "YwMMQVbAI92TC7xRxjGJcOc8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+</body>
+</html>

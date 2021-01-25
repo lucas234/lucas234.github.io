@@ -1,3 +1,5 @@
+博客地址：https://lucas234.github.io/
+
 #### 环境安装：
 
 - 安装git，设置ssh key，测试ssh key是否设置好: `ssh -T git@github.com`
